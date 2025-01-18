@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Collapse } from 'react-bootstrap'
+import { Collapse, Toast} from 'react-bootstrap'
 import { server_url } from '../services/server_url';
+
 
 function Profile() {
 
@@ -14,8 +15,8 @@ function Profile() {
   useEffect(()=>{
     if(sessionStorage.getItem("userDetails")){
       const userDetails = JSON.parse(sessionStorage.getItem("userDetails"))
-      setUserData({...userData,username:userDetails.username,email:userDetails.email,password:userDetails.password,profileImage:userDetails.Profile,github:userDetails.github,linkedin:userDetails.linkedin})
-      setExistingImage(userDetails)
+      setUserData({...userData,username:userDetails.username,email:userDetails.email,password:userDetails.password,profileImage:"",github:userDetails.github,linkedin:userDetails.linkedin})
+      setExistingImage(userDetails.profile)
     }
   },[open])
 
@@ -27,13 +28,13 @@ function Profile() {
     }
   },[userData.profileImage])
 
-  console.log(userData);
+  // console.log(userData);
 
   const handleUpdate =()=>{
     const { username,email,password,profileImage,github,linkedin}= userData
 
     if(!linkedin || !github){
-      toast.info("please fill the missing fields")
+      Toast.info("please fill the missing fields")
     }else{
       // proceed to api call
       // api call(reqBody)
